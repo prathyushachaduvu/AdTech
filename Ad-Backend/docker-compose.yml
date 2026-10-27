@@ -1,0 +1,96 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: adtech_postgres
+    environment:
+      POSTGRES_DB: privacy_adtech
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: prathyu5454196
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8"
+      POSTGRES_HOST_AUTH_METHOD: md5
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./docker/init-db:/docker-entrypoint-initdb.d
+    networks:
+      - adtech_network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: adtech_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - adtech_network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  # Backend Application
+  backend:
+    build: .
+    container_name: adtech_backend
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: development
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: privacy_adtech
+      DB_USER: postgres
+      DB_PASSWORD: prathyu5454196
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      JWT_SECRET: your-super-secret-jwt-key-change-in-production
+      JWT_EXPIRES_IN: 15m
+      # Email Configuration
+      SMTP_HOST: smtp.gmail.com
+      SMTP_PORT: 587
+      SMTP_USER: chaduvuprathyushareddy@gmail.com
+      SMTP_PASS: yxku buyj gnyy faum
+      FRONTEND_URL: http://localhost:3000
+      BACKEND_URL: http://localhost:3000
+      APP_NAME: AdTech Platform
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - adtech_network
+    restart: unless-stopped
+    volumes:
+      - ./src:/app/src:ro  # Read-only mount for development
+      - ./logs:/app/logs   # Logs directory
+      - ./temp:/app/temp   # Temporary file uploads
+      - ./uploads:/app/uploads   # Permanent file storage
+      - ./backups:/app/backups   # Database backups
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      
+networks:
+  adtech_network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  redis_data:

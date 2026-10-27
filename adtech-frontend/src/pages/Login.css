@@ -1,0 +1,159 @@
+.login-container {
+    display: flex;
+    height: 100vh; /* Set height to full viewport height */
+    overflow: hidden; /* Prevent scrolling */
+    background-color: #0d1117; /* Near-black base background */
+}
+
+.left-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; /* This is the default alignment for all direct children */
+    padding: 2rem;
+    transition: justify-content 0.4s ease-in-out;
+}
+
+.left-panel.register-view-active {
+    justify-content: flex-start; /* On register, move content to the top */
+    padding-top: 0.5rem;
+}
+
+.auth-form-container {
+    width: 100%;
+    max-width: 400px;
+}
+
+.left-panel .login-form {
+    width: 100%;
+}
+
+.register-view-active .login-form {
+    margin: 0 auto;
+}
+
+.right-panel {
+    flex: 1.2; /* Give it slightly less space */
+    background-color: #161b22; /* Charcoal gray for the shaped panel */
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    clip-path: url(#login-shape);
+}
+
+.login-form {
+    width: 100%;
+    max-width: 400px;
+    padding: 0 1.5rem 1.5rem 1.5rem; /* Add padding to the sides and bottom */
+}
+
+.login-form > form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem; /* This now controls all the spacing */
+}
+
+.feature-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 2rem;
+}
+
+.feature-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+}
+
+.feature-icon {
+    margin-right: 1rem;
+    color: #16a34a; /* Primary color: Forest Green */
+}
+
+.feature-text h4 {
+    margin: 0 0 0.25rem 0;
+    font-weight: 600;
+}
+
+.feature-text p {
+    margin: 0;
+    color: #8b949e;
+}
+
+.visual-element {
+    width: 100%;
+    max-width: 400px;
+    height: 300px;
+    background-color: #30363d;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2rem;
+    color: #8b949e;
+}
+
+.right-panel-content {
+    max-width: 800px;
+    position: relative;
+    z-index: 1;
+    padding-left: 14rem; /* More padding to clear the curve */
+}
+
+.custom-shape-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.custom-shape-container svg {
+    width: 100%;
+    height: 100%;
+}
+
+.logo-header {
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    margin-bottom: 2rem;
+    margin-top: 3rem;
+    transition: all 0.4s ease-in-out;
+}
+
+.logo-header.logo-register-position {
+    align-self: flex-start; /* Override parent's 'center' alignment for the logo ONLY */
+    text-align: left;
+    margin-top: 0rem; /* Move logo higher */
+    margin-bottom: 1rem; /* Reduce space below logo to move form up */
+    width: auto; /* Let the logo container shrink to its content's width */
+    max-width: none;
+}
+
+.social-login-divider {
+    display: flex;
+    align-items: center;
+    color: #4b5563;
+}
+
+.divider-line {
+    flex-grow: 1;
+    height: 1px;
+    background-color: #4b5563;
+}
+
+.divider-text {
+    margin: 0 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.social-login-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}

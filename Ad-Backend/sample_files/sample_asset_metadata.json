@@ -1,0 +1,21 @@
+{
+  "name": "Sample Test Banner",
+  "description": "A sample banner for testing the AdTech backend asset management system",
+  "originalName": "sample_banner.jpg",
+  "fileName": "sample_banner_20241201_123456.jpg",
+  "filePath": "/uploads/banners/sample_banner_20241201_123456.jpg",
+  "fileSize": 45000,
+  "mimeType": "image/jpeg",
+  "fileExtension": "jpg",
+  "type": "image",
+  "width": 728,
+  "height": 90,
+  "status": "ready",
+  "isActive": true,
+  "tags": ["banner", "test", "sample"],
+  "settings": {
+    "quality": "high",
+    "compression": "optimized",
+    "format": "jpeg"
+  }
+} 

@@ -1,0 +1,21 @@
+This is a sample banner file for testing the AdTech backend file upload system.
+
+File Information:
+- Name: Test Banner
+- Type: Text file (for testing)
+- Size: Small test file
+- Purpose: Testing file upload functionality
+
+This file can be used to test:
+1. File upload endpoints
+2. Asset creation
+3. File metadata extraction
+4. File processing workflows
+
+The actual implementation would handle:
+- Image files (JPG, PNG, GIF)
+- Video files (MP4, MOV, AVI)
+- Document files (PDF, DOC, TXT)
+- Audio files (MP3, WAV, AAC)
+
+For production use, replace this with actual media files. 

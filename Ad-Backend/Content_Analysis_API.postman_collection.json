@@ -1,0 +1,373 @@
+{
+  "info": {
+    "name": "Content Analysis API",
+    "description": "Complete API collection for testing Content Analysis endpoints",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "jwt_token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "campaign_id",
+      "value": "550e8400-e29b-41d4-a716-446655440000",
+      "type": "string"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{jwt_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"testuser@example.com\",\n  \"password\": \"YourPassword123!\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "login"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    if (response.token) {",
+                  "        pm.environment.set('jwt_token', response.token);",
+                  "        console.log('JWT token saved to environment');",
+                  "    }",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"newuser@example.com\",\n  \"password\": \"YourPassword123!\",\n  \"name\": \"Test User\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/register",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "register"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Core Analysis",
+      "item": [
+        {
+          "name": "Analyze Text",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"text\": \"This is an amazing product that everyone should buy! It's absolutely fantastic and works perfectly.\",\n  \"campaignId\": \"{{campaign_id}}\",\n  \"options\": {\n    \"includeSentiment\": true,\n    \"includeKeywords\": true,\n    \"includeClassification\": true,\n    \"includeReadability\": true\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/content-analysis/analyze-text",
+              "host": ["{{base_url}}"],
+              "path": ["api", "content-analysis", "analyze-text"]
+            }
+          }
+        },
+        {
+          "name": "Analyze URL",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"url\": \"https://example.com/ad-page\",\n  \"campaignId\": \"{{campaign_id}}\",\n  \"options\": {\n    \"extractText\": true,\n    \"extractImages\": true,\n    \"analyzeSentiment\": true\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/content-analysis/analyze-url",
+              "host": ["{{base_url}}"],
+              "path": ["api", "content-analysis", "analyze-url"]
+            }
+          }
+        },
+        {
+          "name": "Analyze Image",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"imageUrl\": \"https://example.com/image.jpg\",\n  \"campaignId\": \"{{campaign_id}}\",\n  \"options\": {\n    \"detectObjects\": true,\n    \"analyzeColors\": true,\n    \"extractText\": true\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/content-analysis/analyze-image",
+              "host": ["{{base_url}}"],
+              "path": ["api", "content-analysis", "analyze-image"]
+            }
+          }
+        },
+        {
+          "name": "Bulk Analyze",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"contents\": [\n    {\n      \"type\": \"text\",\n      \"data\": \"First advertisement text content\"\n    },\n    {\n      \"type\": \"url\",\n      \"data\": \"https://example.com/ad1\"\n    },\n    {\n      \"type\": \"image\",\n      \"data\": \"https://example.com/image1.jpg\"\n    }\n  ],\n  \"campaignId\": \"{{campaign_id}}\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/content-analysis/bulk-analyze",
+              "host": ["{{base_url}}"],
+              "path": ["api", "content-analysis", "bulk-analyze"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Specialized Analysis",
+      "item": [
+        {
+          "name": "Sentiment Analysis",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"text\": \"I love this product! It's absolutely fantastic and works perfectly.\",\n  \"campaignId\": \"{{campaign_id}}\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/content-analysis/sentiment",
+              "host": ["{{base_url}}"],
+              "path": ["api", "content-analysis", "sentiment"]
+            }
+          }
+        },
+        {
+          "name": "Keyword Extraction",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"text\": \"Our new smartphone features advanced AI capabilities, 5G connectivity, and a stunning display.\",\n  \"campaignId\": \"{{campaign_id}}\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/content-analysis/keywords",
+              "host": ["{{base_url}}"],
+              "path": ["api", "content-analysis", "keywords"]
+            }
+          }
+        },
+        {
+          "name": "Content Classification",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"text\": \"This is a promotional advertisement for our latest product launch.\",\n  \"campaignId\": \"{{campaign_id}}\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/content-analysis/classify",
+              "host": ["{{base_url}}"],
+              "path": ["api", "content-analysis", "classify"]
+            }
+          }
+        },
+        {
+          "name": "Readability Analysis",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"text\": \"The product offers exceptional value through its innovative design and superior functionality.\",\n  \"campaignId\": \"{{campaign_id}}\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/content-analysis/readability",
+              "host": ["{{base_url}}"],
+              "path": ["api", "content-analysis", "readability"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "History & Insights",
+      "item": [
+        {
+          "name": "Get Analysis History",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/content-analysis/history?campaignId={{campaign_id}}&limit=10&offset=0",
+              "host": ["{{base_url}}"],
+              "path": ["api", "content-analysis", "history"],
+              "query": [
+                {
+                  "key": "campaignId",
+                  "value": "{{campaign_id}}"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "offset",
+                  "value": "0"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Analysis by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/content-analysis/550e8400-e29b-41d4-a716-446655440000",
+              "host": ["{{base_url}}"],
+              "path": ["api", "content-analysis", "550e8400-e29b-41d4-a716-446655440000"]
+            }
+          }
+        },
+        {
+          "name": "Get Analysis Insights",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/content-analysis/insights?campaignId={{campaign_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "content-analysis", "insights"],
+              "query": [
+                {
+                  "key": "campaignId",
+                  "value": "{{campaign_id}}"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Clear Analysis Cache",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/content-analysis/cache?campaignId={{campaign_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "content-analysis", "cache"],
+              "query": [
+                {
+                  "key": "campaignId",
+                  "value": "{{campaign_id}}"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Health Check",
+      "item": [
+        {
+          "name": "Server Health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/health",
+              "host": ["{{base_url}}"],
+              "path": ["health"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+} 
